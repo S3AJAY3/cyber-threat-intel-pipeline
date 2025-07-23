@@ -1,6 +1,11 @@
+---
+layout: default
+title: Cyber Threat Intelligence Feed
+---
+
 # Cyber Threat Intelligence Feed
 
-Generated on 2025-07-23 07:55 UTC
+Generated on 2025-07-23 08:07 UTC
 
 
 ## AlienVault OTX Pulses
