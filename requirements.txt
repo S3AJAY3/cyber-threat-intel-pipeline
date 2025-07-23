@@ -1,0 +1,7 @@
+requests
+notion-client
+feedparser
+python-dotenv
+virustotal-python
+OTXv2
+beautifulsoup4
