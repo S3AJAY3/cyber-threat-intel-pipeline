@@ -1,6 +1,6 @@
 # Cyber Threat Intelligence Feed
 
-Generated on 2025-07-23 07:39 UTC
+Generated on 2025-07-23 07:52 UTC
 
 
 ## AlienVault OTX Pulses
@@ -46,11 +46,11 @@ These are hashes of malware samples recently discovered and catalogued by Malsha
 **How to use this info:**  
 If you have malware detection tools or threat intelligence platforms, you can use these SHA256 hashes to check if any of these malware samples have been seen on your network or systems. It helps identify infections or threats by matching known malware signatures.
 
-- SHA256: 2813902cda92a903610eef20c3094fe05139ee40b5d060796eb9b0f9e4fdb611 | First Seen: N/A
-- SHA256: c85829110266a1c59b1a06c944f46acef1ff82ef0e766e06e67cb7ed519e9cd8 | First Seen: N/A
-- SHA256: d28778b8936db4758b6a196d2aaba791b6193f0009f1d27bbb46d189d5a433af | First Seen: N/A
-- SHA256: 00e7105ff084864ab07d93a7ed4d046329969a4f1845fbd076b4f0f880a95be4 | First Seen: N/A
-- SHA256: c623c28a86fe7ba359acefaa2e1bf232fb72338b56505e87b46a4b9a069cdc6d | First Seen: N/A
+- SHA256: 4120c0d497c549ec197736bf193ce7d711465cf1a8fd20e7c4077b668564567b | First Seen: N/A
+- SHA256: 92e41e62963fbe8c20ad7bcf78318b358b4032645a087491ae4be1e9a532338d | First Seen: N/A
+- SHA256: cfad481c61b1af742ba2aec8b90ef994a40e3a899427dceafd8b931f87878931 | First Seen: N/A
+- SHA256: eb1f569eea745b58219b796bf24be05a0682b1554a14e5ddc0a52c844f46f8bb | First Seen: N/A
+- SHA256: bb45035bedf8608e9269810c88c32556559ff5e869f8685cd2bebb36d6ea3bd3 | First Seen: N/A
 
 
 ## AbuseIPDB Blacklisted IPs
@@ -75,8 +75,8 @@ URLHaus tracks URLs that host malware or phishing pages.
 **How to use this info:**  
 Security teams can block these URLs at the network or browser level to prevent access. Users should never click on suspicious links like these, and email gateways can be configured to flag messages containing such URLs.
 
-- URL: https://64thservice.life/Loader/4334t3tsefwe.exe
-- URL: https://64thservice.life/Loader/64th_(Service).exe
-- URL: https://github.com/MockaPro/XX/raw/refs/heads/main/Microsoft.exe
-- URL: https://64thservice.life/idkrwerwre-main/Microsoft.ServiceHub.exe
-- URL: https://github.com/MockaPro/STEALER/blob/main/XQD0uEu9.2kX.exe
+- URL: http://94.50.255.123:60829/bin.sh
+- URL: http://120.61.250.19:52990/i
+- URL: http://103.188.83.28/harm5
+- URL: http://103.188.83.28/toto
+- URL: http://103.188.83.28/tplink.sh

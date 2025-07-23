@@ -1292,47 +1292,47 @@
   ],
   "malshare": [
     {
-      "md5": "23fb4b8561e1d6f23fd46a6e36db28b9",
-      "sha1": "e7c8cdc8ca322cf67a0f1cd5d227629d64ca8380",
-      "sha256": "2813902cda92a903610eef20c3094fe05139ee40b5d060796eb9b0f9e4fdb611"
+      "md5": "6f7223a43918939179f09ddadbdc7113",
+      "sha1": "8317b6c8081026bd39a7a45ff094f8a26047fd28",
+      "sha256": "4120c0d497c549ec197736bf193ce7d711465cf1a8fd20e7c4077b668564567b"
     },
     {
-      "md5": "2b8247bc7686b5d7583d4dbe068b55d7",
-      "sha1": "26978e2f899304aca214dbb9828a771d2ea7e0cf",
-      "sha256": "c85829110266a1c59b1a06c944f46acef1ff82ef0e766e06e67cb7ed519e9cd8"
+      "md5": "a67ceb9efc09ff495c4fb312c4dfbffe",
+      "sha1": "9b8552f726a411812c42ec83c50f468823819f4e",
+      "sha256": "92e41e62963fbe8c20ad7bcf78318b358b4032645a087491ae4be1e9a532338d"
     },
     {
-      "md5": "23fb68f68d463f067a0d7aad0284b33e",
-      "sha1": "ce94de1f51ca8762ab1738004a9f6eff5a8304ae",
-      "sha256": "d28778b8936db4758b6a196d2aaba791b6193f0009f1d27bbb46d189d5a433af"
+      "md5": "b5a740fb14ae29a65725934c5a6a5e73",
+      "sha1": "e291b958ef354b5e66eb445df76373f62d596791",
+      "sha256": "cfad481c61b1af742ba2aec8b90ef994a40e3a899427dceafd8b931f87878931"
     },
     {
-      "md5": "933cb87ec647b0107ed36a8d128eee2f",
-      "sha1": "cb0bfda444485c6de94e396d587a53986fcce580",
-      "sha256": "00e7105ff084864ab07d93a7ed4d046329969a4f1845fbd076b4f0f880a95be4"
+      "md5": "434a8ee7c201a81994062f5f4f82317c",
+      "sha1": "b359d60f1201ab7294edde9496522966dacf4ad6",
+      "sha256": "eb1f569eea745b58219b796bf24be05a0682b1554a14e5ddc0a52c844f46f8bb"
     },
     {
-      "md5": "dde2333120d5185b954f9f842f2077a9",
-      "sha1": "7b4d00942078ed6eaca2ef7ff261e00caf6564b4",
-      "sha256": "c623c28a86fe7ba359acefaa2e1bf232fb72338b56505e87b46a4b9a069cdc6d"
+      "md5": "bd9edb00c58e30f10a26cf2f4470e577",
+      "sha1": "a726461cbfc90b43794407deeeeb6c5b5ed7a8d2",
+      "sha256": "bb45035bedf8608e9269810c88c32556559ff5e869f8685cd2bebb36d6ea3bd3"
     }
   ],
   "abuseipdb": [],
   "urlhaus": [
     {
-      "url": "https://64thservice.life/Loader/4334t3tsefwe.exe"
+      "url": "http://94.50.255.123:60829/bin.sh"
     },
     {
-      "url": "https://64thservice.life/Loader/64th_(Service).exe"
+      "url": "http://120.61.250.19:52990/i"
     },
     {
-      "url": "https://github.com/MockaPro/XX/raw/refs/heads/main/Microsoft.exe"
+      "url": "http://103.188.83.28/harm5"
     },
     {
-      "url": "https://64thservice.life/idkrwerwre-main/Microsoft.ServiceHub.exe"
+      "url": "http://103.188.83.28/toto"
     },
     {
-      "url": "https://github.com/MockaPro/STEALER/blob/main/XQD0uEu9.2kX.exe"
+      "url": "http://103.188.83.28/tplink.sh"
     }
   ]
 }
