@@ -40,7 +40,8 @@ Security teams can block these URLs at the network or browser level to prevent a
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'cti_data.json')
 OUTPUT_MD = os.path.join(os.path.dirname(__file__), '..', 'docs', 'index.md')
-OUTPUT_HTML = os.path.join(os.path.dirname(__file__), '..', 'docs', 'index.html')
+# Remove or comment out OUTPUT_HTML since not needed for Jekyll
+# OUTPUT_HTML = os.path.join(os.path.dirname(__file__), '..', 'docs', 'index.html')
 
 def load_cti_data():
     if not os.path.exists(DATA_FILE):
@@ -50,8 +51,16 @@ def load_cti_data():
         return json.load(f)
 
 def generate_markdown(data):
-    md_lines = [f"# Cyber Threat Intelligence Feed\n",
-                f"Generated on {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n"]
+    # Add Jekyll front matter at the top
+    md_lines = [
+        "---",
+        "layout: default",
+        "title: Cyber Threat Intelligence Feed",
+        "---",
+        "",
+        f"# Cyber Threat Intelligence Feed\n",
+        f"Generated on {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n"
+    ]
 
     # OTX pulses
     md_lines.append("## AlienVault OTX Pulses\n")
@@ -82,38 +91,15 @@ def generate_markdown(data):
 
     return "\n".join(md_lines)
 
-def generate_html(md_text):
-    # Basic HTML wrapper; you can style later or use markdown->html libs
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Cyber Threat Intel Feed</title>
-  <style>
-    body {{ font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 1rem; }}
-    h1, h2, h3 {{ color: #2c3e50; }}
-    pre {{ background: #eee; padding: 1rem; }}
-  </style>
-</head>
-<body>
-{md_text.replace('\n', '<br>\n')}
-</body>
-</html>"""
-    return html
-
-def save_reports(md_text, html_text):
+def save_markdown(md_text):
     os.makedirs(os.path.dirname(OUTPUT_MD), exist_ok=True)
     with open(OUTPUT_MD, 'w', encoding='utf-8') as f:
         f.write(md_text)
-    with open(OUTPUT_HTML, 'w', encoding='utf-8') as f:
-        f.write(html_text)
     print(f"✅ Markdown report saved to {OUTPUT_MD}")
-    print(f"✅ HTML report saved to {OUTPUT_HTML}")
 
 if __name__ == "__main__":
     data = load_cti_data()
     if not data:
         exit(1)
     md_report = generate_markdown(data)
-    html_report = generate_html(md_report)
-    save_reports(md_report, html_report)
+    save_markdown(md_report)
