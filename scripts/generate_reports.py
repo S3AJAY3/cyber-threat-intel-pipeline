@@ -50,7 +50,7 @@ def generate_reports(data):
         if url:
             urlhaus_lines.append(f"- {url}")
 
-    # ThreatFox
+    # ThreatFox (limit 50)
     threatfox_lines = []
     threatfox_data = data.get('threatfox', [])
     if threatfox_data and isinstance(threatfox_data, list):
@@ -61,24 +61,36 @@ def generate_reports(data):
                 malware = entry.get('malware', 'N/A')
                 threatfox_lines.append(f"- **IOC:** `{ioc}` | Type: {threat_type} | Malware: {malware}")
         else:
-            threatfox_lines.append("*Warning: ThreatFox data items are not dicts.*")
+            print("Warning: ThreatFox data items are not dicts as expected.")
+            threatfox_lines.append("_No valid ThreatFox IOC entries available._")
     else:
-        threatfox_lines.append("*No valid ThreatFox data found.*")
+        print("Warning: No valid ThreatFox data found.")
+        threatfox_lines.append("_No ThreatFox data available at this time._")
 
-    # Write pages
+    # Write individual pages (no descriptions on pages)
     write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines, include_description=False)
     write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines, include_description=False)
     write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines, include_description=False)
     write_markdown_file("threatfox.md", "ThreatFox IOCs", DESCRIPTIONS["threatfox"], threatfox_lines, include_description=False)
 
-    # Homepage in pure Markdown
+    # Homepage in pure Markdown with working links
     index_lines = [
-        "Welcome to your Cyber Threat Intelligence Hub.\n",
-        "## Sources\n",
-        f"### [OTX Pulses](./otx.md)\n{DESCRIPTIONS['otx']}\n",
-        f"### [Malshare Samples](./malshare.md)\n{DESCRIPTIONS['malshare']}\n",
-        f"### [URLHaus Malicious URLs](./urlhaus.md)\n{DESCRIPTIONS['urlhaus']}\n",
-        f"### [ThreatFox IOCs](./threatfox.md)\n{DESCRIPTIONS['threatfox']}\n"
+        "Welcome to your Cyber Threat Intelligence Hub.",
+        "",
+        "## Sources",
+        "",
+        f"### [OTX Pulses](./otx.md)",
+        f"{DESCRIPTIONS['otx']}",
+        "",
+        f"### [Malshare Samples](./malshare.md)",
+        f"{DESCRIPTIONS['malshare']}",
+        "",
+        f"### [URLHaus Malicious URLs](./urlhaus.md)",
+        f"{DESCRIPTIONS['urlhaus']}",
+        "",
+        f"### [ThreatFox IOCs](./threatfox.md)",
+        f"{DESCRIPTIONS['threatfox']}",
+        ""
     ]
     write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines, include_description=False)
 
