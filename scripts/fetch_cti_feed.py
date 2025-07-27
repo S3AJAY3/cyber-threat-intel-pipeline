@@ -8,17 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OTX_API_KEY = os.getenv('OTX_API_KEY')
-ABUSEIPDB_API_KEY = os.getenv('ABUSEIPDB_API_KEY')
 MALSHARE_API_KEY = os.getenv('MALSHARE_API_KEY')
 
 def fetch_otx_feed():
     print("\n--- OTX API Feed ---")
     results = []
     try:
-        url = "https://otx.alienvault.com/api/v1/pulses/subscribed"  # fallback if you have an API key
-        if not OTX_API_KEY:
-            url = "https://otx.alienvault.com/api/v1/pulses/?limit=5"
-
+        url = "https://otx.alienvault.com/api/v1/pulses/subscribed" if OTX_API_KEY else "https://otx.alienvault.com/api/v1/pulses/?limit=5"
         headers = {"X-OTX-API-KEY": OTX_API_KEY} if OTX_API_KEY else {}
         response = requests.get(url, headers=headers, timeout=10)
 
@@ -64,35 +60,6 @@ def fetch_malshare_api():
         print("Exception fetching Malshare API:", e)
     return results
 
-def fetch_abuseipdb():
-    print("\n--- AbuseIPDB Feed ---")
-    results = []
-    if not ABUSEIPDB_API_KEY:
-        print("No AbuseIPDB API key set in environment.")
-        return results
-
-    try:
-        url = "https://api.abuseipdb.com/api/v2/blacklist"
-        headers = {
-            "Key": ABUSEIPDB_API_KEY,
-            "Accept": "application/json"
-        }
-        params = {"confidenceMinimum": 90}
-
-        response = requests.get(url, headers=headers, params=params, timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            for ip in data.get('data', [])[:5]:
-                print(f"IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
-                results.append(ip)
-        elif response.status_code == 429:
-            print("Rate limit reached for AbuseIPDB. Try again tomorrow or upgrade your plan.")
-        else:
-            print(f"Error fetching AbuseIPDB: {response.status_code} - {response.text}")
-    except Exception as e:
-        print("Exception fetching AbuseIPDB:", e)
-    return results
-
 def fetch_urlhaus_csv():
     url = "https://urlhaus.abuse.ch/downloads/csv_recent/"
     print("\n--- URLHaus CSV Feed ---")
@@ -123,7 +90,6 @@ if __name__ == "__main__":
     all_data = {
         "otx": fetch_otx_feed(),
         "malshare": fetch_malshare_api(),
-        "abuseipdb": fetch_abuseipdb(),
         "urlhaus": fetch_urlhaus_csv()
     }
 
