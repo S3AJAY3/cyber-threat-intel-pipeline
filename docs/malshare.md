@@ -1,5 +1,6 @@
 # Malshare Samples
-Generated on 2025-07-27 08:18 UTC
+
+> **Last Updated:** 2025-07-27 08:28 UTC
 
 - SHA256: 4120c0d497c549ec197736bf193ce7d711465cf1a8fd20e7c4077b668564567b | First Seen: N/A
 - SHA256: 92e41e62963fbe8c20ad7bcf78318b358b4032645a087491ae4be1e9a532338d | First Seen: N/A

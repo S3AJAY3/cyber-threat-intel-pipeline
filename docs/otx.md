@@ -1,5 +1,6 @@
 # AlienVault OTX Pulses
-Generated on 2025-07-27 08:18 UTC
+
+> **Last Updated:** 2025-07-27 08:28 UTC
 
 ### SharePoint Vulnerabilities (CVE-2025-53770 & CVE-2025-53771): Everything You Need to Know
 - Created: 2025-07-21T22:45:34.080000
