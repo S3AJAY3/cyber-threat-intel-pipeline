@@ -15,6 +15,8 @@ def write_markdown_file(filename, title, description, content_lines, include_des
     Writes a nicely formatted markdown file with optional description and content lines.
     """
     path = os.path.join(OUTPUT_DIR, filename)
+    os.makedirs(os.path.dirname(path), exist_ok=True)  # Ensure dir exists
+
     with open(path, 'w', encoding='utf-8') as f:
         # Header and timestamp
         f.write(f"# {title}\n")
@@ -71,5 +73,27 @@ def generate_reports(data):
         f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
         f"### [Malshare Samples](./malshare.md)",
         f"<p>{DESCRIPTIONS.get('malshare', '')}</p>",
-        "</div>"
-]
+        "</div>",
+        f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
+        f"### [URLHaus URLs](./urlhaus.md)",
+        f"<p>{DESCRIPTIONS.get('urlhaus', '')}</p>",
+        "</div>",
+        "</div>",
+    ]
+
+    # Write homepage index.md
+    write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines, include_description=False)
+
+if __name__ == "__main__":
+    import json
+    DATA_FILE = "../cti_data.json"
+
+    # Load CTI data JSON
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as e:
+        print(f"❌ Failed to load CTI data: {e}")
+        exit(1)
+
+    generate_reports(data)
