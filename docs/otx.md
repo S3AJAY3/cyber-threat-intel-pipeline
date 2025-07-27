@@ -1,5 +1,5 @@
 # AlienVault OTX Pulses
-Generated on 2025-07-27 10:31 UTC
+Generated on 2025-07-27 14:54 UTC
 
 ### Dissecting Kimsuky's Attacks on South Korea: In-Depth Analysis of GitHub-Based Malicious Infrastructure
 - Created: 2025-06-26T21:22:20.376000
