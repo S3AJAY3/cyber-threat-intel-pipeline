@@ -5,11 +5,10 @@ import os
 DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'cti_data.json')
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'docs')
 
-# Add your descriptions here
+# Updated: Removed AbuseIPDB
 DESCRIPTIONS = {
     "otx": "Hashes and pulses from AlienVault OTX feed.",
     "malshare": "Hashes of malware binaries recently observed in the wild.",
-    "abuseipdb": "IP addresses reported for abusive behavior.",
     "urlhaus": "Malicious URLs reported by URLHaus."
 }
 
@@ -46,26 +45,20 @@ def generate_reports(data):
     for sample in data.get('malshare', []):
         malshare_lines.append(f"- SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
 
-    abuse_lines = []
-    for ip in data.get('abuseipdb', []):
-        abuse_lines.append(f"- IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
-
     urlhaus_lines = []
     for entry in data.get('urlhaus', []):
         urlhaus_lines.append(f"- URL: {entry.get('url')}")
 
-    # Write individual markdown files WITHOUT descriptions
+    # Individual feed pages
     write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines, include_description=False)
     write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines, include_description=False)
-    write_markdown_file("abuseipdb.md", "AbuseIPDB IP Reports", DESCRIPTIONS["abuseipdb"], abuse_lines, include_description=False)
     write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines, include_description=False)
 
-    # Generate index.md with descriptions in the link text
+    # Homepage/index
     index_lines = [
         "Welcome to your CTI Hub. Click below to view threat feeds:\n",
         f"- [OTX Pulses: {DESCRIPTIONS['otx']}](./otx.md)",
         f"- [Malshare Samples: {DESCRIPTIONS['malshare']}](./malshare.md)",
-        f"- [AbuseIPDB IPs: {DESCRIPTIONS['abuseipdb']}](./abuseipdb.md)",
         f"- [URLHaus URLs: {DESCRIPTIONS['urlhaus']}](./urlhaus.md)",
     ]
     write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines, include_description=False)
