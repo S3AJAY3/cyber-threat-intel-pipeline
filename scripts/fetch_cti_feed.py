@@ -16,20 +16,18 @@ def fetch_otx_feed():
     try:
         url = "https://otx.alienvault.com/api/v1/pulses/subscribed"
         if not OTX_API_KEY:
-            url = "https://otx.alienvault.com/api/v1/pulses/?limit=100"
+            url = "https://otx.alienvault.com/api/v1/pulses/?limit=50"  # Fetch 50
 
         headers = {"X-OTX-API-KEY": OTX_API_KEY} if OTX_API_KEY else {}
         response = requests.get(url, headers=headers, timeout=10)
 
         if response.status_code == 200:
             data = response.json()
-            # Handle pagination if needed (example below)
             pulses = data.get('results', [])
             results.extend(pulses)
 
-            # Simple pagination example if 'next' URL provided:
             next_url = data.get('next')
-            while next_url:
+            while next_url and len(results) < 50:
                 response = requests.get(next_url, headers=headers, timeout=10)
                 if response.status_code != 200:
                     break
@@ -38,13 +36,13 @@ def fetch_otx_feed():
                 results.extend(pulses)
                 next_url = data.get('next')
 
-            for pulse in results:
+            for pulse in results[:50]:  # Enforce 50 max
                 print(f"Pulse Name: {pulse.get('name')}")
         else:
             print(f"Error fetching OTX API: {response.status_code} - {response.text}")
     except Exception as e:
         print("Exception fetching OTX feed:", e)
-    return results
+    return results[:50]
 
 def fetch_malshare_api():
     print("\n--- Malshare API Feed ---")
@@ -65,7 +63,7 @@ def fetch_malshare_api():
             if not data:
                 print("No data received from Malshare.")
                 return results
-            for sample in data:
+            for sample in data[:50]:  # Limit to 50
                 print(f"SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
                 results.append(sample)
         else:
@@ -83,11 +81,15 @@ def fetch_urlhaus_csv():
         if response.status_code == 200:
             csv_data = StringIO(response.text)
             reader = csv.reader(csv_data)
+            count = 0
             for row in reader:
+                if count >= 50:
+                    break
                 if row and not row[0].startswith("#"):
                     try:
                         print(f"URL: {row[2]}")
                         results.append({"url": row[2]})
+                        count += 1
                     except IndexError:
                         continue
         else:
