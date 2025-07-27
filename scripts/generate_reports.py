@@ -1,6 +1,15 @@
 import os
 from datetime import datetime
 
+OUTPUT_DIR = "../docs"
+
+# Descriptions for homepage tiles
+DESCRIPTIONS = {
+    "otx": "Pulses from AlienVault's OTX platform containing IOCs and context on recent threats.",
+    "malshare": "Hashes of malware binaries recently observed in the wild.",
+    "urlhaus": "Recently submitted URLs identified as hosting malware or phishing content."
+}
+
 def write_markdown_file(filename, title, description, content_lines, include_description=True):
     """
     Writes a nicely formatted markdown file with optional description and content lines.
@@ -21,9 +30,9 @@ def write_markdown_file(filename, title, description, content_lines, include_des
 def generate_reports(data):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # AlienVault OTX Pulses
+    # AlienVault OTX Pulses (limit 50)
     otx_lines = []
-    for pulse in data.get('otx', []):
+    for pulse in data.get('otx', [])[:50]:
         otx_lines.append(f"### {pulse.get('name')}")
         otx_lines.append(f"- Created: {pulse.get('created')}")
         otx_lines.append(f"- Author: {pulse.get('author_name')}")
@@ -31,16 +40,16 @@ def generate_reports(data):
         if desc:
             otx_lines.append(f"\n{desc}\n")
 
-    # Malshare Samples
+    # Malshare Samples (limit 50)
     malshare_lines = []
-    for sample in data.get('malshare', []):
+    for sample in data.get('malshare', [])[:50]:
         sha256 = sample.get('sha256', 'N/A')
         first_seen = sample.get('first_seen', 'N/A')
         malshare_lines.append(f"- **SHA256:** `{sha256}` | First Seen: {first_seen}")
 
-    # URLHaus URLs
+    # URLHaus URLs (limit 50)
     urlhaus_lines = []
-    for entry in data.get('urlhaus', []):
+    for entry in data.get('urlhaus', [])[:50]:
         url = entry.get('url')
         if url:
             urlhaus_lines.append(f"- [URLHaus Link]({url})")
@@ -62,11 +71,4 @@ def generate_reports(data):
         f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
         f"### [Malshare Samples](./malshare.md)",
         f"<p>{DESCRIPTIONS.get('malshare', '')}</p>",
-        "</div>",
-        f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
-        f"### [URLHaus URLs](./urlhaus.md)",
-        f"<p>{DESCRIPTIONS.get('urlhaus', '')}</p>",
-        "</div>",
-        "</div>",
-    ]
-    write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines, include_description=False)
+        "</d
