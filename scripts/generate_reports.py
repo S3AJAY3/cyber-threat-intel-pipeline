@@ -71,4 +71,5 @@ def generate_reports(data):
         f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
         f"### [Malshare Samples](./malshare.md)",
         f"<p>{DESCRIPTIONS.get('malshare', '')}</p>",
-        "</d
+        "</div>"
+]
