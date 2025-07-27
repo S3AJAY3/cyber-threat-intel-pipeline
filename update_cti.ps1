@@ -15,3 +15,10 @@ git add docs/*.md
 git add docs/index.md docs/_config.yml cti_data.json scripts/generate_reports.py update_cti.ps1
 git commit -m "Daily CTI feed update"
 git push origin main
+
+# Automatically stage all changes
+git add .
+
+# Create a timestamped commit message
+$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
+git commit -m " Auto update: CTI feed refresh on $timestamp"
