@@ -6,10 +6,10 @@ DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'cti_data.json')
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'docs')
 
 DESCRIPTIONS = {
-    'otx': "## AlienVault OTX Pulses\n\nPulses contain threat indicators and context shared by researchers.",
-    'malshare': "## Malshare Samples\n\nHashes of malware binaries recently observed in the wild.",
-    'abuseipdb': "## AbuseIPDB Blacklisted IPs\n\nIPs reported for abuse like scans, attacks, or spam.",
-    'urlhaus': "## URLHaus Malicious URLs\n\nURLs known to host malware or phishing content."
+    'otx': "## Pulses contain threat indicators and context shared by researchers.",
+    'malshare': "## Hashes of malware binaries recently observed in the wild.",
+    'abuseipdb': "## IPs reported for abuse like scans, attacks, or spam.",
+    'urlhaus': "## URLs known to host malware or phishing content."
 }
 
 def load_cti_data():
@@ -63,8 +63,6 @@ def generate_reports(data):
 
     # Generate index.md as homepage
     index_lines = [
-        "# Cyber Threat Intelligence Feed",
-        f"Generated on {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n",
         "Welcome to your CTI Hub. Click below to view threat feeds:\n",
         "- [OTX Pulses](./otx.md)",
         "- [Malshare Samples](./malshare.md)",
