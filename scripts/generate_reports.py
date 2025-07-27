@@ -1,47 +1,47 @@
-import json
+\import json
 from datetime import datetime
 import os
 
-MALSHARE_DESC = """
+# Descriptions for each data type
+DESCRIPTIONS = {
+    "malshare": """
 ## Malshare Samples
 
 These are hashes of malware samples recently discovered and catalogued by Malshare, a repository of malware binaries.
 
-- **SHA256:** This is a unique digital fingerprint for each malware file. Security analysts use these hashes to identify and share malware samples without distributing the actual malicious files.
-- **First Seen:** Indicates when the sample was first detected (if available).
+- **SHA256:** Unique fingerprint for each malware file.
+- **First Seen:** When it was first detected.
 
-**How to use this info:**  
-If you have malware detection tools or threat intelligence platforms, you can use these SHA256 hashes to check if any of these malware samples have been seen on your network or systems. It helps identify infections or threats by matching known malware signatures.
-"""
-
-ABUSEIPDB_DESC = """
+Use these hashes to search your network or tools for known threats.
+""",
+    "abuseipdb": """
 ## AbuseIPDB Blacklisted IPs
 
-This section lists IP addresses reported for malicious activity and flagged by AbuseIPDB, a collaborative threat intelligence platform.
+IP addresses reported for malicious activity, with confidence scores.
 
-- These IPs are linked to activities like scanning, hacking attempts, spamming, or distributing malware.
-- The "confidence score" reflects how reliably the IP is considered abusive based on reports.
+- **Confidence Score:** Reliability of abuse reports.
+- **Reports:** How many times it was reported.
 
-**How to use this info:**  
-Network defenders can block or monitor traffic to and from these IP addresses to reduce the risk of attacks. If you see connections involving these IPs, consider investigating them promptly.
-"""
-
-URLHAUS_DESC = """
+Use this to block or investigate network threats.
+""",
+    "urlhaus": """
 ## URLHaus Malicious URLs
 
-URLHaus tracks URLs that host malware or phishing pages.
+URLs distributing malware or phishing payloads.
 
-- These URLs are known to distribute malicious payloads or trick users into giving up sensitive data.
-- Attackers often use these URLs in phishing emails or drive-by-download attacks.
+Use this to block threats at the DNS or proxy level.
+""",
+    "otx": """
+## AlienVault OTX Pulses
 
-**How to use this info:**  
-Security teams can block these URLs at the network or browser level to prevent access. Users should never click on suspicious links like these, and email gateways can be configured to flag messages containing such URLs.
+Curated threat intel shared by the security community.
+
+Each "Pulse" is a collection of related IoCs.
 """
+}
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'cti_data.json')
-OUTPUT_MD = os.path.join(os.path.dirname(__file__), '..', 'docs', 'index.md')
-# Remove or comment out OUTPUT_HTML since not needed for Jekyll
-# OUTPUT_HTML = os.path.join(os.path.dirname(__file__), '..', 'docs', 'index.html')
+DOCS_DIR = os.path.join(os.path.dirname(__file__), '..', 'docs')
 
 def load_cti_data():
     if not os.path.exists(DATA_FILE):
@@ -50,56 +50,59 @@ def load_cti_data():
     with open(DATA_FILE, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def generate_markdown(data):
-    # Add Jekyll front matter at the top
-    md_lines = [
-        "---",
-        "layout: default",
-        "title: Cyber Threat Intelligence Feed",
-        "---",
+def save_page(filename, title, body_lines):
+    path = os.path.join(DOCS_DIR, filename)
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(f"---\nlayout: default\ntitle: {title}\n---\n\n")
+        f.write(f"# {title}\n\n")
+        f.write("\n".join(body_lines))
+    print(f"✅ Saved {filename}")
+
+def generate_all_pages(data):
+    # Home/index page
+    home_lines = [
+        f"Generated on {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n",
+        "This site compiles threat intel feeds into one place.\n",
+        "### Sources:",
+        "- [AlienVault OTX](otx.md)",
+        "- [Malshare](malshare.md)",
+        "- [AbuseIPDB](abuseipdb.md)",
+        "- [URLHaus](urlhaus.md)",
         "",
-        f"# Cyber Threat Intelligence Feed\n",
-        f"Generated on {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n"
     ]
+    save_page("index.md", "Cyber Threat Intelligence Hub", home_lines)
 
-    # OTX pulses
-    md_lines.append("## AlienVault OTX Pulses\n")
-    for pulse in data.get('otx', []):
-        md_lines.append(f"### {pulse.get('name')}")
-        md_lines.append(f"- Created: {pulse.get('created')}")
-        md_lines.append(f"- Author: {pulse.get('author_name')}")
-        desc = pulse.get('description', '').strip()
-        md_lines.append(f"\n{desc}\n")
+    # OTX
+    otx_lines = [DESCRIPTIONS["otx"]]
+    for pulse in data.get("otx", []):
+        otx_lines.append(f"### {pulse.get('name')}")
+        otx_lines.append(f"- Created: {pulse.get('created')}")
+        otx_lines.append(f"- Author: {pulse.get('author_name')}")
+        otx_lines.append(pulse.get("description", "").strip())
+        otx_lines.append("")
+    save_page("otx.md", "AlienVault OTX Pulses", otx_lines)
 
-    # Malshare samples with description
-    md_lines.append(MALSHARE_DESC)
-    for sample in data.get('malshare', []):
-        md_lines.append(f"- SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
-    md_lines.append("")
+    # Malshare
+    mal_lines = [DESCRIPTIONS["malshare"]]
+    for sample in data.get("malshare", []):
+        mal_lines.append(f"- SHA256: `{sample.get('sha256')}` | First Seen: {sample.get('first_seen')}")
+    save_page("malshare.md", "Malshare Samples", mal_lines)
 
-    # AbuseIPDB blacklisted IPs with description
-    md_lines.append(ABUSEIPDB_DESC)
-    for ip in data.get('abuseipdb', []):
-        md_lines.append(f"- IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
-    md_lines.append("")
+    # AbuseIPDB
+    abuse_lines = [DESCRIPTIONS["abuseipdb"]]
+    for ip in data.get("abuseipdb", []):
+        abuse_lines.append(f"- IP: `{ip.get('ipAddress')}` | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
+    save_page("abuseipdb.md", "AbuseIPDB Blacklisted IPs", abuse_lines)
 
-    # URLHaus URLs with description
-    md_lines.append(URLHAUS_DESC)
-    for entry in data.get('urlhaus', []):
-        md_lines.append(f"- URL: {entry.get('url')}")
-    md_lines.append("")
-
-    return "\n".join(md_lines)
-
-def save_markdown(md_text):
-    os.makedirs(os.path.dirname(OUTPUT_MD), exist_ok=True)
-    with open(OUTPUT_MD, 'w', encoding='utf-8') as f:
-        f.write(md_text)
-    print(f"✅ Markdown report saved to {OUTPUT_MD}")
+    # URLHaus
+    urlhaus_lines = [DESCRIPTIONS["urlhaus"]]
+    for entry in data.get("urlhaus", []):
+        urlhaus_lines.append(f"- URL: `{entry.get('url')}`")
+    save_page("urlhaus.md", "URLHaus Malicious URLs", urlhaus_lines)
 
 if __name__ == "__main__":
     data = load_cti_data()
     if not data:
         exit(1)
-    md_report = generate_markdown(data)
-    save_markdown(md_report)
+    generate_all_pages(data)
+

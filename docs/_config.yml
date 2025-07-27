@@ -1,3 +1,15 @@
-title: Cyber Threat Intel Feed
-description: Latest Cyber Threat Intelligence updates
+title: CTI Hub
 theme: minima
+markdown: kramdown
+
+# Enable navigation links
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+# Optional: Navigation order
+collections:
+  pages:
+    output: true
