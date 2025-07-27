@@ -7,7 +7,8 @@ OUTPUT_DIR = "../docs"
 DESCRIPTIONS = {
     "otx": "Pulses from AlienVault's OTX platform containing IOCs and context on recent threats.",
     "malshare": "Hashes of malware binaries recently observed in the wild.",
-    "urlhaus": "Recently submitted URLs identified as hosting malware or phishing content."
+    "urlhaus": "Recently submitted URLs identified as hosting malware or phishing content.",
+    "threatfox": "Real-time indicators of compromise (IOCs) from abuse.ch's ThreatFox platform."
 }
 
 def write_markdown_file(filename, title, description, content_lines, include_description=True):
@@ -54,14 +55,31 @@ def generate_reports(data):
     for entry in data.get('urlhaus', [])[:50]:
         url = entry.get('url')
         if url:
-            urlhaus_lines.append(f"- [URLHaus Link]({url})")
+            urlhaus_lines.append(f"- {url}")
+
+    # ThreatFox (limit 50)
+    threatfox_lines = []
+    threatfox_data = data.get('threatfox', [])
+    if threatfox_data and isinstance(threatfox_data, list):
+        # Confirm first item is a dict, not a str
+        if len(threatfox_data) > 0 and isinstance(threatfox_data[0], dict):
+            for entry in threatfox_data[:50]:
+                ioc = entry.get('ioc', 'N/A')
+                threat_type = entry.get('threat_type', 'N/A')
+                malware = entry.get('malware', 'N/A')
+                threatfox_lines.append(f"- **IOC:** `{ioc}` | Type: {threat_type} | Malware: {malware}")
+        else:
+            print("Warning: ThreatFox data items are not dicts as expected.")
+    else:
+        print("Warning: No valid ThreatFox data found.")
 
     # Write individual pages (no descriptions on pages)
     write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS.get("otx", ""), otx_lines, include_description=False)
     write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS.get("malshare", ""), malshare_lines, include_description=False)
     write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS.get("urlhaus", ""), urlhaus_lines, include_description=False)
+    write_markdown_file("threatfox.md", "ThreatFox IOCs", DESCRIPTIONS.get("threatfox", ""), threatfox_lines, include_description=False)
 
-    # Homepage with spread-out links and descriptions (not list)
+    # Homepage with layout
     index_lines = [
         "Welcome to your Cyber Threat Intelligence Hub.",
         "",
@@ -78,10 +96,12 @@ def generate_reports(data):
         f"### [URLHaus URLs](./urlhaus.md)",
         f"<p>{DESCRIPTIONS.get('urlhaus', '')}</p>",
         "</div>",
+        f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
+        f"### [ThreatFox IOCs](./threatfox.md)",
+        f"<p>{DESCRIPTIONS.get('threatfox', '')}</p>",
+        "</div>",
         "</div>",
     ]
-
-    # Write homepage index.md
     write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines, include_description=False)
 
 if __name__ == "__main__":
