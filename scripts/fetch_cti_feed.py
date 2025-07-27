@@ -9,15 +9,13 @@ load_dotenv()
 
 OTX_API_KEY = os.getenv('OTX_API_KEY')
 MALSHARE_API_KEY = os.getenv('MALSHARE_API_KEY')
+THREATFOX_API_KEY = os.getenv("THREATFOX_API_KEY")
 
 def fetch_otx_feed():
     print("\n--- OTX API Feed ---")
     results = []
     try:
-        url = "https://otx.alienvault.com/api/v1/pulses/subscribed"
-        if not OTX_API_KEY:
-            url = "https://otx.alienvault.com/api/v1/pulses/?limit=50"  # Fetch 50
-
+        url = "https://otx.alienvault.com/api/v1/pulses/subscribed" if OTX_API_KEY else "https://otx.alienvault.com/api/v1/pulses/?limit=50"
         headers = {"X-OTX-API-KEY": OTX_API_KEY} if OTX_API_KEY else {}
         response = requests.get(url, headers=headers, timeout=10)
 
@@ -36,7 +34,7 @@ def fetch_otx_feed():
                 results.extend(pulses)
                 next_url = data.get('next')
 
-            for pulse in results[:50]:  # Enforce 50 max
+            for pulse in results[:50]:
                 print(f"Pulse Name: {pulse.get('name')}")
         else:
             print(f"Error fetching OTX API: {response.status_code} - {response.text}")
@@ -63,7 +61,7 @@ def fetch_malshare_api():
             if not data:
                 print("No data received from Malshare.")
                 return results
-            for sample in data[:50]:  # Limit to 50
+            for sample in data[:50]:
                 print(f"SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
                 results.append(sample)
         else:
@@ -73,8 +71,8 @@ def fetch_malshare_api():
     return results
 
 def fetch_urlhaus_csv():
-    url = "https://urlhaus.abuse.ch/downloads/csv_recent/"
     print("\n--- URLHaus CSV Feed ---")
+    url = "https://urlhaus.abuse.ch/downloads/csv_recent/"
     results = []
     try:
         response = requests.get(url, timeout=10)
@@ -98,11 +96,37 @@ def fetch_urlhaus_csv():
         print("Exception fetching URLHaus CSV:", e)
     return results
 
+def fetch_threatfox():
+    print("\n--- Threatfox ---")
+    url = "https://threatfox-api.abuse.ch/api/v1/"
+    headers = {
+        "Auth-Key": THREATFOX_API_KEY
+    }
+    payload = {"query": "get_iocs", "limit": 50}
+
+    try:
+        response = requests.post(url, headers=headers, json=payload, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("query_status") != "ok":
+            print("❌ Invalid query_status:", data)
+            return []
+
+        iocs = data.get("data", [])[:50]  # Enforce limit
+        for ioc in iocs:
+            print(f"IOC: {ioc.get('ioc', 'N/A')} | Type: {ioc.get('ioc_type', 'N/A')}")
+        return iocs
+    except Exception as e:
+        print(f"❌ Error fetching ThreatFox data: {e}")
+        return []
+
 if __name__ == "__main__":
     all_data = {
         "otx": fetch_otx_feed(),
         "malshare": fetch_malshare_api(),
-        "urlhaus": fetch_urlhaus_csv()
+        "urlhaus": fetch_urlhaus_csv(),
+        "threatfox": fetch_threatfox()
     }
 
     with open("../cti_data.json", "w", encoding="utf-8") as f:
