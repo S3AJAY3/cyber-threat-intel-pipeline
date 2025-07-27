@@ -5,11 +5,6 @@ import os
 DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'cti_data.json')
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'docs')
 
-DESCRIPTIONS = {
-    'otx': "## Pulses contain threat indicators and context shared by researchers.",
-    'malshare': "## Hashes of malware binaries recently observed in the wild.",
-    'abuseipdb': "## IPs reported for abuse like scans, attacks, or spam.",
-    'urlhaus': "## URLs known to host malware or phishing content."
 }
 
 def load_cti_data():
@@ -35,7 +30,6 @@ def generate_reports(data):
     pages = {}
 
     # OTX
-    otx_lines = []
     for pulse in data.get('otx', []):
         otx_lines.append(f"### {pulse.get('name')}")
         otx_lines.append(f"- Created: {pulse.get('created')}")
@@ -44,19 +38,16 @@ def generate_reports(data):
     write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines)
 
     # Malshare
-    malshare_lines = []
     for sample in data.get('malshare', []):
         malshare_lines.append(f"- SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
     write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines)
 
     # AbuseIPDB
-    abuse_lines = []
     for ip in data.get('abuseipdb', []):
         abuse_lines.append(f"- IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
     write_markdown_file("abuseipdb.md", "AbuseIPDB IP Reports", DESCRIPTIONS["abuseipdb"], abuse_lines)
 
     # URLHaus
-    urlhaus_lines = []
     for entry in data.get('urlhaus', []):
         urlhaus_lines.append(f"- URL: {entry.get('url')}")
     write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines)
@@ -64,10 +55,10 @@ def generate_reports(data):
     # Generate index.md as homepage
     index_lines = []
         "Welcome to your CTI Hub. Click below to view threat feeds:\n",
-        "- [OTX Pulses](./otx.md)",
-        "- [Malshare Samples](./malshare.md)",
-        "- [AbuseIPDB IPs](./abuseipdb.md)",
-        "- [URLHaus URLs](./urlhaus.md)",
+        "- [OTX Pulses : Pulses contain threat indicators and context shared by researchers. ](./otx.md)",
+        "- [Malshare Samples : Hashes of malware binaries recently observed in the wild. ](./malshare.md)",
+        "- [AbuseIPDB IPs : IPs reported for abuse like scans, attacks, or spam. ](./abuseipdb.md)",
+        "- [URLHaus URLs : URLs known to host malware or phishing content. ](./urlhaus.md)",
     ]
     write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines)
 
