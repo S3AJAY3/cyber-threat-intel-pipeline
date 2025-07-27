@@ -9,6 +9,9 @@ scripts/generate_reports.py
 
 
 # Commit and push to GitHub
+git add cti_data.json
+git add scripts/generate_reports.py
+git add docs/*.md
 git add docs/index.md docs/_config.yml cti_data.json scripts/generate_reports.py update_cti.ps1
 git commit -m "Daily CTI feed update"
 git push origin main
