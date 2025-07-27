@@ -14,18 +14,32 @@ def fetch_otx_feed():
     print("\n--- OTX API Feed ---")
     results = []
     try:
-        url = "https://otx.alienvault.com/api/v1/pulses/subscribed" if OTX_API_KEY else "https://otx.alienvault.com/api/v1/pulses/?limit=5"
+        url = "https://otx.alienvault.com/api/v1/pulses/subscribed"
+        if not OTX_API_KEY:
+            url = "https://otx.alienvault.com/api/v1/pulses/?limit=100"
+
         headers = {"X-OTX-API-KEY": OTX_API_KEY} if OTX_API_KEY else {}
         response = requests.get(url, headers=headers, timeout=10)
 
         if response.status_code == 200:
             data = response.json()
-            for pulse in data.get('results', []):
+            # Handle pagination if needed (example below)
+            pulses = data.get('results', [])
+            results.extend(pulses)
+
+            # Simple pagination example if 'next' URL provided:
+            next_url = data.get('next')
+            while next_url:
+                response = requests.get(next_url, headers=headers, timeout=10)
+                if response.status_code != 200:
+                    break
+                data = response.json()
+                pulses = data.get('results', [])
+                results.extend(pulses)
+                next_url = data.get('next')
+
+            for pulse in results:
                 print(f"Pulse Name: {pulse.get('name')}")
-                print(f"Created: {pulse.get('created')}")
-                print(f"Author: {pulse.get('author_name')}")
-                print(f"Description: {pulse.get('description')}\n")
-                results.append(pulse)
         else:
             print(f"Error fetching OTX API: {response.status_code} - {response.text}")
     except Exception as e:
@@ -51,7 +65,7 @@ def fetch_malshare_api():
             if not data:
                 print("No data received from Malshare.")
                 return results
-            for sample in data[:5]:
+            for sample in data:
                 print(f"SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
                 results.append(sample)
         else:
@@ -69,15 +83,11 @@ def fetch_urlhaus_csv():
         if response.status_code == 200:
             csv_data = StringIO(response.text)
             reader = csv.reader(csv_data)
-            count = 0
             for row in reader:
                 if row and not row[0].startswith("#"):
                     try:
                         print(f"URL: {row[2]}")
                         results.append({"url": row[2]})
-                        count += 1
-                        if count == 5:
-                            break
                     except IndexError:
                         continue
         else:
@@ -93,7 +103,6 @@ if __name__ == "__main__":
         "urlhaus": fetch_urlhaus_csv()
     }
 
-    # Save to JSON file
     with open("../cti_data.json", "w", encoding="utf-8") as f:
         json.dump(all_data, f, indent=2)
 
