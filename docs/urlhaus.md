@@ -1,5 +1,5 @@
 # URLHaus Malicious URLs
-Generated on 2025-07-27 14:54 UTC
+Generated on 2025-07-27 14:59 UTC
 
 - http://123.4.145.128:55639/i
 - http://219.157.154.194:55117/i
