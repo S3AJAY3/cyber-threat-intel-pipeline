@@ -1,4 +1,53 @@
 # ThreatFox IOCs
-Generated on 2025-07-27 14:59 UTC
+Generated on 2025-07-27 15:05 UTC
 
-*No valid ThreatFox data found.*
+- **IOC:** `35.156.141.157:1337` | Type: botnet_cc | Malware: win.njrat
+- **IOC:** `147.185.221.30:34037` | Type: botnet_cc | Malware: win.xworm
+- **IOC:** `154.219.109.235:7000` | Type: botnet_cc | Malware: win.xworm
+- **IOC:** `85.235.205.148:443` | Type: payload_delivery | Malware: js.fakeupdates
+- **IOC:** `45.196.247.225:8080` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `45.196.247.226:8080` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `45.196.247.227:8080` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `45.196.247.156:8080` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `45.143.167.125:82` | Type: botnet_cc | Malware: win.meterpreter
+- **IOC:** `www.expects-crucial-pest-bubble.club` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `123.60.27.219:10001` | Type: botnet_cc | Malware: win.extreme_rat
+- **IOC:** `147.93.5.173:80` | Type: botnet_cc | Malware: win.mimikatz
+- **IOC:** `16.28.104.49:37404` | Type: botnet_cc | Malware: win.netsupportmanager_rat
+- **IOC:** `163.227.239.216:6000` | Type: botnet_cc | Malware: win.dcrat
+- **IOC:** `mail.letlama.com` | Type: botnet_cc | Malware: win.havoc
+- **IOC:** `5.10.250.242:9000` | Type: botnet_cc | Malware: win.sectop_rat
+- **IOC:** `154.94.232.213:8080` | Type: botnet_cc | Malware: win.ghost_rat
+- **IOC:** `103.86.44.179:8080` | Type: botnet_cc | Malware: win.ghost_rat
+- **IOC:** `Mareczek123-27222.portmap.host` | Type: botnet_cc | Malware: win.xworm
+- **IOC:** `192.144.232.209:4433` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `3.19.222.192:80` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `3.126.37.18:10320` | Type: botnet_cc | Malware: win.xworm
+- **IOC:** `https://xurekodip.com/qpdl` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `https://utvp1.net/zkaj` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `https://smp.rodeo/riww/api` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `https://orienderi.com/xori` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `117.247.198.235:443` | Type: botnet_cc | Malware: win.havoc
+- **IOC:** `120.55.73.61:8080` | Type: botnet_cc | Malware: win.cobalt_strike
+- **IOC:** `70.31.125.47:2222` | Type: botnet_cc | Malware: win.qakbot
+- **IOC:** `18.252.157.3:443` | Type: botnet_cc | Malware: win.deimos_c2
+- **IOC:** `15.197.129.209:443` | Type: botnet_cc | Malware: win.deimos_c2
+- **IOC:** `103.229.190.80:443` | Type: botnet_cc | Malware: win.deimos_c2
+- **IOC:** `smp.rodeo` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `xurekodip.com` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `utvp1.net` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `orienderi.com` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `3.23.92.222:56501` | Type: botnet_cc | Malware: win.netsupportmanager_rat
+- **IOC:** `196.251.118.16:7000` | Type: botnet_cc | Malware: win.venom
+- **IOC:** `107.189.26.86:9000` | Type: botnet_cc | Malware: win.sectop_rat
+- **IOC:** `24.152.36.198:8808` | Type: botnet_cc | Malware: win.asyncrat
+- **IOC:** `209.94.58.48:8080` | Type: botnet_cc | Malware: win.sliver
+- **IOC:** `172.98.23.73:8080` | Type: botnet_cc | Malware: win.ghost_rat
+- **IOC:** `http://89.116.20.194:81/telnet.sh` | Type: payload_delivery | Malware: unknown
+- **IOC:** `thinkrz.lol` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `integkr.pics` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `paramkc.lat` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `aspecqo.top` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `severhi.lol` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `emageuv.fun` | Type: botnet_cc | Malware: win.lumma
+- **IOC:** `emapsho.fun` | Type: botnet_cc | Malware: win.lumma

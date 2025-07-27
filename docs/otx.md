@@ -1,5 +1,5 @@
 # AlienVault OTX Pulses
-Generated on 2025-07-27 14:59 UTC
+Generated on 2025-07-27 15:05 UTC
 
 ### Dissecting Kimsuky's Attacks on South Korea: In-Depth Analysis of GitHub-Based Malicious Infrastructure
 - Created: 2025-06-26T21:22:20.376000
@@ -180,4 +180,124 @@ This pulse highlights an ongoing mass exploitation campaign targeting on-premise
 - Author: AlienVault
 
 In May 2025, eSentire's Threat Response Unit (TRU) uncovered a targeted attack on a U.S. accounting firm. The attackers used a newly advertised crypter service, Ghost Crypt, to sideload and obfuscate a DLL into a legitimate Windows component (csc.exe), deploying PureRAT, a Remote Access Trojan that surged in 2025
+
+### SOC files: an APT41 attack on government IT services in Africa
+- Created: 2025-07-21T09:53:00.869000
+- Author: AlienVault
+
+Chinese cyberespionage group APT41 conducted a targeted attack against government IT services in Africa. The attackers used various tools including Impacket, Cobalt Strike, and custom malware for lateral movement, privilege escalation, and data exfiltration. They leveraged DLL sideloading techniques and a compromised SharePoint server as a command and control center. The attack involved credential harvesting, use of web shells, and custom stealers to collect sensitive data. Notable TTPs included using hardcoded internal service names and proxy servers in malware, and exploiting a captive SharePoint server for C2 communication. The incident highlights the importance of comprehensive infrastructure monitoring and proper access controls.
+
+### DeedRAT Backdoor Enhanced with Advanced Capabilities
+- Created: 2025-07-21T10:34:46.067000
+- Author: AlienVault
+
+Chinese threat actors have launched a new phishing campaign using DeedRAT, a modular backdoor. The campaign exploits a DLL side-loading vulnerability in VIPRE Antivirus Premium's MambaSafeModeUI.exe. DeedRAT now includes a new NetAgent module, expanding its capabilities. The malware uses TCP for C2 communication and employs various persistence techniques. Notable features include a custom encryption algorithm using a linear congruential generator, API protection, and junk functions to confuse analysts. The backdoor's continued development and increased obfuscation suggest the threat actors are actively enhancing their tools and techniques.
+
+### NailaoLocker Ransomware's 'Cheese'
+- Created: 2025-07-21T10:27:39.177000
+- Author: AlienVault
+
+NailaoLocker, a new ransomware variant targeting Windows systems, uses AES-256-CBC encryption and uniquely incorporates SM2 cryptography with hard-coded keys. It employs DLL side-loading for execution and uses I/O Completion Ports for multi-threaded file processing. The ransomware includes both encryption and decryption modes, with a built-in SM2 key pair. However, testing revealed the embedded private key fails to decrypt files properly, suggesting it may be a trap or an incomplete build. NailaoLocker's use of Chinese SM2 standards for key protection marks a departure from typical ransomware practices. While the decryption logic functions correctly with valid key material, the variant's true intent remains unclear.
+
+### Getting to the Crux (Ransomware) of the Matter
+- Created: 2025-07-21T08:15:21.172000
+- Author: AlienVault
+
+A new ransomware variant named Crux has been identified, claiming association with the BlackByte group. Observed in three separate incidents, Crux encrypts files with a .crux extension and leaves ransom notes. Initial access appears to involve Remote Desktop Protocol (RDP) using valid credentials. The ransomware executable, with varying names and locations, follows a distinct process tree involving svchost.exe, cmd.exe, and bcdedit.exe. It disables system recovery to hinder restoration attempts. Data exfiltration using Rclone was observed in one incident. The threat actor demonstrates prior knowledge of targeted infrastructures and prefers using legitimate Windows processes. While claiming BlackByte affiliation, this hasn't been independently verified.
+
+### Discord Invite Hijacking: How Fake Links Are Delivering Infostealers
+- Created: 2025-06-20T21:13:48.745000
+- Author: AlienVault
+
+Cybercriminals are exploiting Discord's invite system and content delivery features to distribute malware and steal sensitive data. They use fake invite links, expired codes, and vanity URLs to redirect users to malicious servers. The attack chain involves a sophisticated combination of social engineering, multi-stage loaders, and time-based evasion tactics. Victims are tricked into authorizing a fake bot, which leads to the deployment of AsyncRAT and a customized Skuld Stealer. These malware variants target browser credentials, Discord tokens, and cryptocurrency wallets. The campaign uses trusted platforms like GitHub and Bitbucket to host encrypted payloads, and employs advanced techniques to bypass security measures and maintain persistence.
+
+### Caught in the Act: Uncovering SpyNote in Unexpected Places
+- Created: 2025-06-20T19:26:02.648000
+- Author: AlienVault
+
+Multiple samples of SpyNote, a sophisticated Android spyware, were discovered in open directories, disguised as legitimate apps like Google Translate, Temp Mail, and Deutsche Postbank. The malware exploits accessibility services and device administrator privileges to steal sensitive information from infected devices. Samples were found on various servers, including AWS and SonderCloud Limited, with different command and control (C2) infrastructures. The discovery highlights the ongoing threat of SpyNote, especially after its source code leak in late 2022, and emphasizes the importance of proactive threat detection and analysis.
+
+### Crypto Phishing Applications On The Play Store
+- Created: 2025-06-20T19:25:58.588000
+- Author: AlienVault
+
+An investigation uncovered more than 20 cryptocurrency phishing applications on the Google Play Store impersonating legitimate wallets like SushiSwap and PancakeSwap. These malicious apps employ phishing techniques to steal users' mnemonic phrases, allowing access to real wallets and theft of funds. The apps share common patterns, including embedded C&C URLs in privacy policies and similar package names. They are distributed through compromised developer accounts previously used for legitimate apps. Two main types were identified: those using the Median framework and those directly loading phishing URLs into WebViews. The campaign demonstrates a coordinated operation with a large-scale phishing infrastructure linked to over 50 domains.
+
+### Resurgence of the Prometei Botnet
+- Created: 2025-06-20T13:10:55.489000
+- Author: AlienVault
+
+Unit 42 researchers identified a new wave of Prometei botnet attacks in March 2025. The malware, which includes Linux and Windows variants, allows remote control of compromised systems for cryptocurrency mining and credential theft. Prometei is actively developed, incorporating new modules and methods, including a backdoor for various malicious activities. It uses a domain generation algorithm for C2 infrastructure and self-updating features for evasion. The article analyzes versions three and four of the Linux variant, highlighting differences from version two. Prometei's modular architecture makes it highly adaptable, with components for brute-forcing credentials, exploiting vulnerabilities, mining cryptocurrency, stealing data, and C2 communication. The botnet's primary goal is Monero mining, but it also has secondary capabilities like credential theft and deploying additional malware payloads.
+
+### TxTag Takedown: Busting Phishing Email Schemes
+- Created: 2025-06-20T09:12:44.056000
+- Author: AlienVault
+
+A new phishing campaign has been observed leveraging a .gov domain to deceive employees into believing they owe an unpaid toll. The scam uses urgency and fear tactics, threatening penalties or vehicle registration holds if the balance is not paid immediately. The threat actors utilize the GovDelivery system to increase legitimacy, despite using Indiana's instance for a Texas-related scam. The phishing link leads to a fake website that collects personal information and credit card details. The campaign exploits fear of consequences and mimics a well-known service, highlighting the importance of integrating human expertise into email security processes to identify threats that bypass conventional malicious indicators.
+
+### What's in an ASP? Creative Phishing Attack on Prominent Academics and Critics of Russia
+- Created: 2025-06-18T23:37:24.537000
+- Author: AlienVault
+
+A Russia state-sponsored cyber threat actor impersonated the U.S. Department of State to target prominent academics and critics of Russia. The attackers used extensive rapport building and tailored lures to convince targets to set up application specific passwords (ASPs). Once obtained, these ASPs allowed persistent access to victims' mailboxes. Two distinct campaigns were observed, both using residential proxies and VPS servers for access. The attackers sent phishing emails disguised as meeting invitations, including spoofed Department of State email addresses to increase legitimacy. Victims were directed to create ASPs with specific names, which the attackers then used to access their email accounts. This activity is tracked as UNC6293 and is assessed with low confidence to be associated with APT29 / ICECAP.
+
+### Android Cryptojacker Masquerades as Banking App to Mine Cryptocurrency on Locked Devices
+- Created: 2025-07-18T13:03:31.762000
+- Author: AlienVault
+
+A new Android malware campaign has been discovered, disguising itself as a banking app to covertly mine cryptocurrency on locked devices. The malware, distributed through a phishing website impersonating Axis Bank, downloads and executes a modified version of XMRig, a popular cryptocurrency mining software. It monitors the device's lock state and battery level, initiating mining operations when the device is locked and stopping when unlocked. This stealthy approach allows for persistent mining, leading to excessive heat generation, battery drain, and potential hardware damage. The malware uses multiple hosting platforms to distribute its payload and connects to specific mining pools. Its impact on devices includes high CPU and memory usage, significant temperature increases, and overall performance degradation.
+
+### Critical Langflow Vulnerability (CVE-2025-3248) Actively Exploited to Deliver Flodrix Botnet
+- Created: 2025-06-18T17:46:12.687000
+- Author: AlienVault
+
+An active campaign is exploiting CVE-2025-3248, a critical vulnerability in Langflow versions before 1.3.0, to deliver the Flodrix botnet. Attackers use the flaw to execute downloader scripts on compromised servers, which then fetch and install the Flodrix malware. The vulnerability allows full system compromise, DDoS attacks, and potential data exfiltration. Organizations using vulnerable Langflow versions on public networks are at high risk. The attack chain involves reconnaissance, exploitation of the CVE, deployment of a downloader script, and execution of the Flodrix botnet payload. The malware employs anti-forensic techniques and can perform various DDoS attacks based on commands from its C&C server.
+
+### May 2025 APT Group Trends (South Korea)
+- Created: 2025-06-18T17:46:11.620000
+- Author: AlienVault
+
+This analysis examines Advanced Persistent Threat (APT) attacks in South Korea during May 2025. The majority of identified attacks utilized spear phishing as the primary infiltration method. Two main types of attacks were observed: Type A, which uses LNK files to execute malicious scripts and download additional malware, and Type B, which employs LNK files to download and execute obfuscated Python scripts. Both types use deception techniques, including decoy documents and task scheduler manipulation. The attacks targeted various sectors, using topics such as financial reporting, privacy protection, and business registration to lure victims. The report provides detailed information on file names, decoy documents, and indicators of compromise, including MD5 hashes, URLs, FQDNs, and IP addresses associated with the malicious activities.
+
+### Warning Against Distribution of Malware Disguised as Research Papers
+- Created: 2025-06-18T17:46:10.435000
+- Author: AlienVault
+
+The Kimsuky group has launched a sophisticated phishing attack disguised as a request for paper review from a professor. The attack involves a password-protected HWP document with a malicious OLE object, which creates six files upon opening. When executed, these files perform various malicious activities, including collecting system information, downloading additional files, and establishing remote access through AnyDesk. The threat actors use legitimate software and cloud storage services like Dropbox as part of their attack infrastructure. The malware hides its presence by concealing AnyDesk's interface, making detection difficult for users. This case highlights the evolving tactics of APT groups and the importance of cautious handling of files from unknown sources.
+
+### Fake Minecraft mods distributed by the Stargazers Ghost Network to steal gamers’ data
+- Created: 2025-06-18T16:36:04.563000
+- Author: AlienVault
+
+A multistage malware campaign targeting Minecraft users has been discovered, distributed through the Stargazers Ghost Network on GitHub. The malware impersonates popular Minecraft mods and cheats, using a Java-based downloader that evades detection. The infection chain includes multiple stages: a Java loader, a Java stealer, and a .NET stealer. The malware steals gaming credentials, browser data, cryptocurrency wallets, and other sensitive information. The campaign, likely of Russian origin, exploits the popularity of Minecraft mods to spread malware, highlighting the risks in gaming communities. Over 1500 potential infections have been recorded based on Pastebin hits.
+
+### From ClickFix deception to information stealer deployment
+- Created: 2025-06-18T12:27:27.853000
+- Author: AlienVault
+
+The article describes a surge in ClickFix campaigns using GHOSTPULSE to deploy Remote Access Trojans and data-stealing malware. It analyzes a multi-stage attack that begins with ClickFix social engineering, deploys GHOSTPULSE loader, and ultimately delivers ARECHCLIENT2, a potent remote access trojan and infostealer. The campaign exploits user psychology, bypasses traditional defenses, and has seen increased activity in 2025. The analysis covers the infection chain, technical details of GHOSTPULSE and ARECHCLIENT2, and the associated infrastructure. The attack targets a wide range of sensitive user data and system information, including cryptocurrency wallets, browser data, and system details.
+
+### From a Teams Call to a Ransomware Threat: Matanbuchus 3.0 MaaS Levels Up
+- Created: 2025-07-18T09:01:17.436000
+- Author: AlienVault
+
+Matanbuchus 3.0, a malware loader available as Malware-as-a-Service, has evolved with significant updates. It now employs sophisticated techniques including improved communication protocols, in-memory stealth capabilities, enhanced obfuscation, and support for WQL queries, CMD, and PowerShell reverse shells. The loader collects detailed system data, including information on EDR security controls, to tailor subsequent attacks. It can execute various commands through regsvr32, rundll32, msiexec, or process hollowing. The malware establishes persistence through scheduled tasks and registry modifications. Recent campaigns have targeted victims through external Microsoft Teams calls impersonating IT helpdesks, leading to potential ransomware compromises.
+
+### Malware Identified in Attacks Exploiting Ivanti Connect Secure Vulnerabilities
+- Created: 2025-07-18T07:33:09.932000
+- Author: AlienVault
+
+The article details malware and tactics used in attacks targeting Ivanti Connect Secure vulnerabilities from December 2024 to July 2025. It describes MDifyLoader, a loader based on libPeConv, which deploys Cobalt Strike Beacon through DLL side-loading. The attackers also utilized vshell, a multi-platform RAT, and Fscan, a network scanning tool. After gaining initial access, the threat actors performed lateral movement using brute-force attacks, exploited vulnerabilities, and used stolen credentials. They established persistence by creating domain accounts and registering malware as services or scheduled tasks. The attackers employed various evasion techniques, including the use of legitimate files and ETW bypasses.
+
+### KAWA4096’s Ransomware Tide: Rising Threat With Borrowed Styles
+- Created: 2025-07-18T07:36:49.698000
+- Author: AlienVault
+
+KAWA4096, a new ransomware that emerged in June 2025, has claimed at least 11 victims, primarily targeting the United States and Japan. The malware features a leak site mimicking the Akira ransomware group's style and a ransom note format similar to Qilin's. KAWA4096 employs multithreading, semaphores for synchronization, and can encrypt files on shared network drives. It terminates specific services and processes, deletes shadow copies, and utilizes a configuration loaded from its binary. The ransomware's encryption process involves file scanning, skipping certain files and directories, and using a shared queue for efficient processing. It also changes file icons and can modify the desktop wallpaper. The group's tactics appear to be aimed at boosting visibility and credibility by imitating established ransomware operations.
+
+### The Linuxsys Cryptominer
+- Created: 2025-07-18T07:36:12.388000
+- Author: AlienVault
+
+A long-running cryptomining campaign exploiting multiple vulnerabilities has been active since 2021, using consistent attack methodologies. The attacker compromises legitimate websites to distribute malware, enabling stealthy delivery and detection evasion. The campaign targets various vulnerabilities, including CVE-2021-41773, CVE-2024-0012, CVE-2024-9474, CVE-2024-36401, CVE-2023-22527, CVE-2023-34960, and CVE-2023-38646. The attacker uses a script to download configuration files and a coinminer (linuxsys) from compromised hosts. The operation appears small-scale but has persisted for years, carefully targeting high-interaction systems and avoiding low-interaction honeypots. The attacker's success stems from their consistent techniques, including n-day exploitation and staging content on compromised hosts.
 
