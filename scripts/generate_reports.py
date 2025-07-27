@@ -44,25 +44,25 @@ def generate_reports(data):
     write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines)
 
     # Malshare
-    malshare_lines = [DESCRIPTIONS["malshare"]]
+    malshare_lines = []
     for sample in data.get('malshare', []):
         malshare_lines.append(f"- SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
     write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines)
 
     # AbuseIPDB
-    abuse_lines = [DESCRIPTIONS["abuseipdb"]]
+    abuse_lines = []
     for ip in data.get('abuseipdb', []):
         abuse_lines.append(f"- IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
     write_markdown_file("abuseipdb.md", "AbuseIPDB IP Reports", DESCRIPTIONS["abuseipdb"], abuse_lines)
 
     # URLHaus
-    urlhaus_lines = [DESCRIPTIONS["urlhaus"]]
+    urlhaus_lines = []
     for entry in data.get('urlhaus', []):
         urlhaus_lines.append(f"- URL: {entry.get('url')}")
     write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines)
 
     # Generate index.md as homepage
-    index_lines = [
+    index_lines = []
         "Welcome to your CTI Hub. Click below to view threat feeds:\n",
         "- [OTX Pulses](./otx.md)",
         "- [Malshare Samples](./malshare.md)",
