@@ -1,32 +1,19 @@
-import json
-from datetime import datetime
 import os
-
-DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'cti_data.json')
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'docs')
-
-# Updated: Removed AbuseIPDB
-DESCRIPTIONS = {
-    "otx": "Hashes and pulses from AlienVault OTX feed.",
-    "malshare": "Hashes of malware binaries recently observed in the wild.",
-    "urlhaus": "Malicious URLs reported by URLHaus."
-}
-
-def load_cti_data():
-    try:
-        with open(DATA_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"❌ Failed to load CTI data: {e}")
-        return None
+from datetime import datetime
 
 def write_markdown_file(filename, title, description, content_lines, include_description=True):
+    """
+    Writes a nicely formatted markdown file with optional description and content lines.
+    """
     path = os.path.join(OUTPUT_DIR, filename)
     with open(path, 'w', encoding='utf-8') as f:
+        # Header and timestamp
         f.write(f"# {title}\n")
         f.write(f"Generated on {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n")
+        # Description if wanted
         if include_description and description:
             f.write(f"{description}\n\n")
+        # Content with spacing
         f.write('\n'.join(content_lines))
         f.write('\n')
     print(f"✅ Generated {filename}")
@@ -34,37 +21,52 @@ def write_markdown_file(filename, title, description, content_lines, include_des
 def generate_reports(data):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+    # AlienVault OTX Pulses
     otx_lines = []
     for pulse in data.get('otx', []):
         otx_lines.append(f"### {pulse.get('name')}")
         otx_lines.append(f"- Created: {pulse.get('created')}")
         otx_lines.append(f"- Author: {pulse.get('author_name')}")
-        otx_lines.append(f"\n{pulse.get('description', '').strip()}\n")
+        desc = pulse.get('description', '').strip()
+        if desc:
+            otx_lines.append(f"\n{desc}\n")
 
+    # Malshare Samples
     malshare_lines = []
     for sample in data.get('malshare', []):
-        malshare_lines.append(f"- SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
+        sha256 = sample.get('sha256', 'N/A')
+        first_seen = sample.get('first_seen', 'N/A')
+        malshare_lines.append(f"- **SHA256:** `{sha256}` | First Seen: {first_seen}")
 
+    # URLHaus URLs
     urlhaus_lines = []
     for entry in data.get('urlhaus', []):
-        urlhaus_lines.append(f"- URL: {entry.get('url')}")
+        url = entry.get('url')
+        if url:
+            urlhaus_lines.append(f"- [URLHaus Link]({url})")
 
-    # Individual feed pages
-    write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines, include_description=False)
-    write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines, include_description=False)
-    write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines, include_description=False)
+    # Write individual pages (no descriptions on pages)
+    write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS.get("otx", ""), otx_lines, include_description=False)
+    write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS.get("malshare", ""), malshare_lines, include_description=False)
+    write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS.get("urlhaus", ""), urlhaus_lines, include_description=False)
 
-    # Homepage/index
+    # Homepage with spread-out links and descriptions (not list)
     index_lines = [
-        "Welcome to your CTI Hub. Click below to view threat feeds:\n",
-        f"- [OTX Pulses: {DESCRIPTIONS['otx']}](./otx.md)",
-        f"- [Malshare Samples: {DESCRIPTIONS['malshare']}](./malshare.md)",
-        f"- [URLHaus URLs: {DESCRIPTIONS['urlhaus']}](./urlhaus.md)",
+        "Welcome to your Cyber Threat Intelligence Hub.",
+        "",
+        "<div style='display: flex; justify-content: space-around; flex-wrap: wrap;'>",
+        f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
+        f"### [OTX Pulses](./otx.md)",
+        f"<p>{DESCRIPTIONS.get('otx', '')}</p>",
+        "</div>",
+        f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
+        f"### [Malshare Samples](./malshare.md)",
+        f"<p>{DESCRIPTIONS.get('malshare', '')}</p>",
+        "</div>",
+        f"<div style='flex: 1; margin: 1rem; min-width: 250px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;'>",
+        f"### [URLHaus URLs](./urlhaus.md)",
+        f"<p>{DESCRIPTIONS.get('urlhaus', '')}</p>",
+        "</div>",
+        "</div>",
     ]
     write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines, include_description=False)
-
-if __name__ == "__main__":
-    data = load_cti_data()
-    if not data:
-        exit(1)
-    generate_reports(data)
