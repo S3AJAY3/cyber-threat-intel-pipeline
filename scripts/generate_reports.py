@@ -5,62 +5,70 @@ import os
 DATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'cti_data.json')
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'docs')
 
+# Add your descriptions here
+DESCRIPTIONS = {
+    "otx": "Hashes and pulses from AlienVault OTX feed.",
+    "malshare": "Hashes of malware binaries recently observed in the wild.",
+    "abuseipdb": "IP addresses reported for abusive behavior.",
+    "urlhaus": "Malicious URLs reported by URLHaus."
 }
 
 def load_cti_data():
-    if not os.path.exists(DATA_FILE):
-        print("⚠️ No CTI data found.")
+    try:
+        with open(DATA_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"❌ Failed to load CTI data: {e}")
         return None
-    with open(DATA_FILE, 'r', encoding='utf-8') as f:
-        return json.load(f)
 
-def write_markdown_file(filename, title, description, content_lines):
+def write_markdown_file(filename, title, description, content_lines, include_description=True):
     path = os.path.join(OUTPUT_DIR, filename)
     with open(path, 'w', encoding='utf-8') as f:
         f.write(f"# {title}\n")
         f.write(f"Generated on {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n")
-        f.write(f"{description}\n\n")
-        f.writelines('\n'.join(content_lines))
+        if include_description and description:
+            f.write(f"{description}\n\n")
+        f.write('\n'.join(content_lines))
+        f.write('\n')
     print(f"✅ Generated {filename}")
 
 def generate_reports(data):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # Generate individual pages
-    pages = {}
-
-    # OTX
+    otx_lines = []
     for pulse in data.get('otx', []):
         otx_lines.append(f"### {pulse.get('name')}")
         otx_lines.append(f"- Created: {pulse.get('created')}")
         otx_lines.append(f"- Author: {pulse.get('author_name')}")
-        otx_lines.append(f"- Description: {pulse.get('description', '').strip()}\n")
-    write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines)
+        otx_lines.append(f"\n{pulse.get('description', '').strip()}\n")
 
-    # Malshare
+    malshare_lines = []
     for sample in data.get('malshare', []):
         malshare_lines.append(f"- SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
-    write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines)
 
-    # AbuseIPDB
+    abuse_lines = []
     for ip in data.get('abuseipdb', []):
         abuse_lines.append(f"- IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
-    write_markdown_file("abuseipdb.md", "AbuseIPDB IP Reports", DESCRIPTIONS["abuseipdb"], abuse_lines)
 
-    # URLHaus
+    urlhaus_lines = []
     for entry in data.get('urlhaus', []):
         urlhaus_lines.append(f"- URL: {entry.get('url')}")
-    write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines)
 
-    # Generate index.md as homepage
-    index_lines = []
+    # Write individual markdown files WITHOUT descriptions
+    write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines, include_description=False)
+    write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines, include_description=False)
+    write_markdown_file("abuseipdb.md", "AbuseIPDB IP Reports", DESCRIPTIONS["abuseipdb"], abuse_lines, include_description=False)
+    write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines, include_description=False)
+
+    # Generate index.md with descriptions in the link text
+    index_lines = [
         "Welcome to your CTI Hub. Click below to view threat feeds:\n",
-        "- [OTX Pulses : Pulses contain threat indicators and context shared by researchers. ](./otx.md)",
-        "- [Malshare Samples : Hashes of malware binaries recently observed in the wild. ](./malshare.md)",
-        "- [AbuseIPDB IPs : IPs reported for abuse like scans, attacks, or spam. ](./abuseipdb.md)",
-        "- [URLHaus URLs : URLs known to host malware or phishing content. ](./urlhaus.md)",
+        f"- [OTX Pulses: {DESCRIPTIONS['otx']}](./otx.md)",
+        f"- [Malshare Samples: {DESCRIPTIONS['malshare']}](./malshare.md)",
+        f"- [AbuseIPDB IPs: {DESCRIPTIONS['abuseipdb']}](./abuseipdb.md)",
+        f"- [URLHaus URLs: {DESCRIPTIONS['urlhaus']}](./urlhaus.md)",
     ]
-    write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines)
+    write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", index_lines, include_description=False)
 
 if __name__ == "__main__":
     data = load_cti_data()
