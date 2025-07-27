@@ -1,53 +1,53 @@
 # URLHaus Malicious URLs
-Generated on 2025-07-27 10:26 UTC
+Generated on 2025-07-27 10:31 UTC
 
-- [URLHaus Link](http://123.4.145.128:55639/i)
-- [URLHaus Link](http://219.157.154.194:55117/i)
-- [URLHaus Link](http://42.56.157.68:51152/bin.sh)
-- [URLHaus Link](http://222.141.82.177:53954/bin.sh)
-- [URLHaus Link](http://42.242.163.148:51260/bin.sh)
-- [URLHaus Link](http://123.4.145.128:55639/bin.sh)
-- [URLHaus Link](http://219.157.154.194:55117/bin.sh)
-- [URLHaus Link](http://59.92.86.222:34534/i)
-- [URLHaus Link](http://27.217.109.105:44951/i)
-- [URLHaus Link](http://42.178.171.186:59041/bin.sh)
-- [URLHaus Link](http://59.92.86.222:34534/bin.sh)
-- [URLHaus Link](http://196.251.80.54/bins/NexImpact.arm6)
-- [URLHaus Link](http://196.251.80.54/bins/NexImpact.spc)
-- [URLHaus Link](http://196.251.80.54/bins/NexImpact.mips)
-- [URLHaus Link](http://196.251.80.54/bins/NexImpact.arm)
-- [URLHaus Link](http://196.251.80.54/bins/NexImpact.sh4)
-- [URLHaus Link](http://196.251.80.54/bins/NexImpact.ppc)
-- [URLHaus Link](http://196.251.116.34/bins/morte.i468)
-- [URLHaus Link](http://115.50.32.16:57536/i)
-- [URLHaus Link](http://196.251.80.97/bins/huawei)
-- [URLHaus Link](http://196.251.80.97/bins/scan.x32)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.arm7)
-- [URLHaus Link](http://196.251.80.97/bins/bot.arm7)
-- [URLHaus Link](http://196.251.80.97/bins/bot.mpsl)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.mpsl)
-- [URLHaus Link](http://196.251.80.97/bins/cnc)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.x86_64)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.m68k)
-- [URLHaus Link](http://196.251.80.97/bins/bot.x86_64)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.arm)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.mips)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.ppc)
-- [URLHaus Link](http://196.251.80.97/bins/scan.x86)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.arm6)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.ppc)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.spc)
-- [URLHaus Link](http://196.251.80.97/bins/bot.ppc)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.sh4)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.mips)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.arm5)
-- [URLHaus Link](http://196.251.80.97/bins/bot.mips)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.x86_64)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.x86)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.arm6)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.arm7)
-- [URLHaus Link](http://196.251.80.97/bins/ssh.arm5)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.arm)
-- [URLHaus Link](http://196.251.80.97/bins/bot.sh4)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.mpsl)
-- [URLHaus Link](http://196.251.80.97/bins/kaizen.sh4)
+- http://123.4.145.128:55639/i
+- http://219.157.154.194:55117/i
+- http://42.56.157.68:51152/bin.sh
+- http://222.141.82.177:53954/bin.sh
+- http://42.242.163.148:51260/bin.sh
+- http://123.4.145.128:55639/bin.sh
+- http://219.157.154.194:55117/bin.sh
+- http://59.92.86.222:34534/i
+- http://27.217.109.105:44951/i
+- http://42.178.171.186:59041/bin.sh
+- http://59.92.86.222:34534/bin.sh
+- http://196.251.80.54/bins/NexImpact.arm6
+- http://196.251.80.54/bins/NexImpact.spc
+- http://196.251.80.54/bins/NexImpact.mips
+- http://196.251.80.54/bins/NexImpact.arm
+- http://196.251.80.54/bins/NexImpact.sh4
+- http://196.251.80.54/bins/NexImpact.ppc
+- http://196.251.116.34/bins/morte.i468
+- http://115.50.32.16:57536/i
+- http://196.251.80.97/bins/huawei
+- http://196.251.80.97/bins/scan.x32
+- http://196.251.80.97/bins/kaizen.arm7
+- http://196.251.80.97/bins/bot.arm7
+- http://196.251.80.97/bins/bot.mpsl
+- http://196.251.80.97/bins/ssh.mpsl
+- http://196.251.80.97/bins/cnc
+- http://196.251.80.97/bins/ssh.x86_64
+- http://196.251.80.97/bins/kaizen.m68k
+- http://196.251.80.97/bins/bot.x86_64
+- http://196.251.80.97/bins/ssh.arm
+- http://196.251.80.97/bins/ssh.mips
+- http://196.251.80.97/bins/kaizen.ppc
+- http://196.251.80.97/bins/scan.x86
+- http://196.251.80.97/bins/kaizen.arm6
+- http://196.251.80.97/bins/ssh.ppc
+- http://196.251.80.97/bins/kaizen.spc
+- http://196.251.80.97/bins/bot.ppc
+- http://196.251.80.97/bins/ssh.sh4
+- http://196.251.80.97/bins/kaizen.mips
+- http://196.251.80.97/bins/kaizen.arm5
+- http://196.251.80.97/bins/bot.mips
+- http://196.251.80.97/bins/kaizen.x86_64
+- http://196.251.80.97/bins/kaizen.x86
+- http://196.251.80.97/bins/ssh.arm6
+- http://196.251.80.97/bins/ssh.arm7
+- http://196.251.80.97/bins/ssh.arm5
+- http://196.251.80.97/bins/kaizen.arm
+- http://196.251.80.97/bins/bot.sh4
+- http://196.251.80.97/bins/kaizen.mpsl
+- http://196.251.80.97/bins/kaizen.sh4
