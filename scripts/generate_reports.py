@@ -20,15 +20,85 @@ def load_cti_data():
         print(f"❌ Failed to load CTI data: {e}")
         return None
 
-def write_markdown_file(filename, title, description, content_lines, include_description=True):
+def format_with_layout(title, body_lines):
+    timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
+    body = '\n'.join(body_lines)
+    return f"""<div class="page-wrapper">
+
+<h1>{title}</h1>
+<p class="timestamp">Generated on {timestamp}</p>
+
+{body}
+
+</div>
+
+<script>
+const toggleTheme = () => {{
+  document.body.classList.toggle('dark-mode');
+}};
+</script>
+
+<style>
+body {{
+  font-family: 'Segoe UI', sans-serif;
+  margin: 2rem;
+  color: #222;
+  background: #fff;
+  transition: background 0.3s, color 0.3s;
+}}
+.dark-mode {{
+  background: #121212;
+  color: #ddd;
+}}
+.page-wrapper {{
+  max-width: 900px;
+  margin: auto;
+}}
+.timestamp {{
+  color: gray;
+  font-size: 0.9em;
+  margin-bottom: 1.5em;
+}}
+h1 {{
+  font-size: 2em;
+  margin-bottom: 0.3em;
+}}
+pre, code {{
+  background-color: #f6f8fa;
+  padding: 0.5em;
+  display: block;
+  border-radius: 6px;
+  overflow-x: auto;
+}}
+a {{
+  color: #0366d6;
+  text-decoration: none;
+}}
+a:hover {{
+  text-decoration: underline;
+}}
+button {{
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: #0366d6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+}}
+</style>
+
+<button onclick="toggleTheme()">🌓 Toggle Theme</button>
+"""
+
+def write_html_markdown(filename, title, content_lines):
     path = os.path.join(OUTPUT_DIR, filename)
     with open(path, 'w', encoding='utf-8') as f:
-        f.write(f"# {title}\n\n")
-        f.write(f"> **Last Updated:** {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}\n\n")
-        if include_description and description:
-            f.write(f"{description}\n\n")
-        f.write('\n'.join(content_lines))
-        f.write('\n')
+        html = format_with_layout(title, content_lines)
+        f.write(html)
     print(f"✅ Generated {filename}")
 
 def generate_reports(data):
@@ -39,99 +109,52 @@ def generate_reports(data):
         otx_lines.append(f"### {pulse.get('name')}")
         otx_lines.append(f"- Created: {pulse.get('created')}")
         otx_lines.append(f"- Author: {pulse.get('author_name')}")
-        otx_lines.append(f"\n{pulse.get('description', '').strip()}\n")
+        otx_lines.append(f"<p>{pulse.get('description', '').strip()}</p>")
 
-    malshare_lines = []
-    for sample in data.get('malshare', []):
-        malshare_lines.append(f"- SHA256: {sample.get('sha256', 'N/A')} | First Seen: {sample.get('first_seen', 'N/A')}")
+    malshare_lines = [
+        f"- SHA256: {s.get('sha256', 'N/A')} | First Seen: {s.get('first_seen', 'N/A')}"
+        for s in data.get('malshare', [])
+    ]
 
-    abuse_lines = []
-    for ip in data.get('abuseipdb', []):
-        abuse_lines.append(f"- IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}")
+    abuse_lines = [
+        f"- IP: {ip.get('ipAddress')} | Reports: {ip.get('totalReports')} | Confidence: {ip.get('abuseConfidenceScore')}"
+        for ip in data.get('abuseipdb', [])
+    ]
 
-    urlhaus_lines = []
-    for entry in data.get('urlhaus', []):
-        urlhaus_lines.append(f"- URL: {entry.get('url')}")
+    urlhaus_lines = [
+        f"- URL: {entry.get('url')}"
+        for entry in data.get('urlhaus', [])
+    ]
 
-    write_markdown_file("otx.md", "AlienVault OTX Pulses", DESCRIPTIONS["otx"], otx_lines, include_description=False)
-    write_markdown_file("malshare.md", "Malshare Samples", DESCRIPTIONS["malshare"], malshare_lines, include_description=False)
-    write_markdown_file("abuseipdb.md", "AbuseIPDB IP Reports", DESCRIPTIONS["abuseipdb"], abuse_lines, include_description=False)
-    write_markdown_file("urlhaus.md", "URLHaus Malicious URLs", DESCRIPTIONS["urlhaus"], urlhaus_lines, include_description=False)
+    write_html_markdown("otx.md", "👽 AlienVault OTX Pulses", otx_lines)
+    write_html_markdown("malshare.md", "🧬 Malshare Samples", malshare_lines)
+    write_html_markdown("abuseipdb.md", "🚨 AbuseIPDB IP Reports", abuse_lines)
+    write_html_markdown("urlhaus.md", "🌐 URLHaus Malicious URLs", urlhaus_lines)
 
-    # Create improved index.md layout
-    index_content = f"""Welcome to your personal CTI hub — your command center for monitoring fresh cyber threat intelligence from public sources.
-
----
-
-## 🔗 Explore Threat Feeds
-
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <a href="./otx.md">
-        <strong>👽 AlienVault OTX</strong><br/>
-        <em>{DESCRIPTIONS['otx']}</em>
-      </a>
-    </td>
-    <td align="center" width="50%">
-      <a href="./malshare.md">
-        <strong>🧬 Malshare</strong><br/>
-        <em>{DESCRIPTIONS['malshare']}</em>
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <a href="./abuseipdb.md">
-        <strong>🚨 AbuseIPDB</strong><br/>
-        <em>{DESCRIPTIONS['abuseipdb']}</em>
-      </a>
-    </td>
-    <td align="center" width="50%">
-      <a href="./urlhaus.md">
-        <strong>🌐 URLHaus</strong><br/>
-        <em>{DESCRIPTIONS['urlhaus']}</em>
-      </a>
-    </td>
-  </tr>
-</table>
-
----
-
-## 📁 About This Hub
-
-This hub collects and displays threat intelligence feeds from public APIs. It is auto-generated and refreshed regularly.
-
-Coming soon:
-- 📄 Blog posts & incident analysis
-- 💼 Resume and project portfolio
-- 🛠 Tools and OSINT resources
-
----
-
-<style>
-table {{
-  width: 100%;
-  border: none;
-}}
-td {{
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.05);
-}}
-a {{
-  text-decoration: none;
-  color: #0366d6;
-  font-size: 1.1em;
-}}
-em {{
-  color: #666;
-  font-size: 0.9em;
-}}
-</style>
-"""
-    write_markdown_file("index.md", "Cyber Threat Intelligence Hub", "", [index_content], include_description=False)
+    index_html = format_with_layout("🧠 Cyber Threat Intelligence Hub", [
+        "Welcome to your personal CTI hub — your command center for monitoring fresh cyber threat intelligence from public sources.",
+        "<hr>",
+        "<table>",
+        "  <tr>",
+        "    <td><a href='./otx.md'><strong>👽 AlienVault OTX</strong><br/><em>{}</em></a></td>".format(DESCRIPTIONS['otx']),
+        "    <td><a href='./malshare.md'><strong>🧬 Malshare</strong><br/><em>{}</em></a></td>".format(DESCRIPTIONS['malshare']),
+        "  </tr>",
+        "  <tr>",
+        "    <td><a href='./abuseipdb.md'><strong>🚨 AbuseIPDB</strong><br/><em>{}</em></a></td>".format(DESCRIPTIONS['abuseipdb']),
+        "    <td><a href='./urlhaus.md'><strong>🌐 URLHaus</strong><br/><em>{}</em></a></td>".format(DESCRIPTIONS['urlhaus']),
+        "  </tr>",
+        "</table>",
+        "<hr>",
+        "<p><strong>Coming soon:</strong></p>",
+        "<ul>",
+        "<li>📄 Blog posts & incident analysis</li>",
+        "<li>💼 Resume and project portfolio</li>",
+        "<li>🛠 Tools and OSINT resources</li>",
+        "</ul>"
+    ])
+    with open(os.path.join(OUTPUT_DIR, "index.md"), 'w', encoding='utf-8') as f:
+        f.write(index_html)
+    print("✅ Generated index.md")
 
 if __name__ == "__main__":
     data = load_cti_data()
